@@ -12,6 +12,11 @@ class Store {
             total: 0
         }
 
+        this.promos = {
+            noDeliveryFee: 'nofee24',
+            twentyPercentOff: '20percent'
+        }
+
         this.menu = {
 
             item1: {
@@ -94,6 +99,7 @@ class Store {
         this.loadItems()
         this.addToCart()
         this.checkout()
+        this.addPromo()
         this.homeSwitch()
         this.confirmOrder()
     }
@@ -127,6 +133,21 @@ class Store {
         }
     }
 
+    getTotals(obj, rate) {
+        this.itemsInCart = {
+            itemCount: this.itemsInCart.itemCount + 1,
+            price: this.itemsInCart.price+=obj.price,
+            subtotal: this.itemsInCart.price,
+            subTimesQty: (obj.price * obj.qty).toFixed(2),
+            tax: this.itemsInCart.subtotal * rate,
+            deliveryFee: this.itemsInCart.deliveryFee,
+            total: (this.itemsInCart.subtotal + this.itemsInCart.tax + this.itemsInCart.deliveryFee).toFixed(2)
+        }
+
+        console.log(this.itemsInCart)
+        return this.itemsInCart
+    }
+
     addToCart() {
         const menuButtons = document.querySelectorAll('.menu-btn')
         const cartItems = document.getElementById('cartItems')
@@ -147,15 +168,20 @@ class Store {
             menuButtons.forEach(button => {
                 button.addEventListener('click', ()=> {
                     if (button.dataset['id'] == item.id) {
-                        this.itemsInCart.itemCount++
-                        this.itemsInCart.price+= item.price
-                        this.itemsInCart.subtotal = this.itemsInCart.price
-
+                        
                         item.qty++
+                        // testing
+                        this.getTotals(item, taxRate)
+                        //  end testing...SUCCESS!!
 
-                        this.itemsInCart.subTimesQty = (item.price * item.qty).toFixed(2)
-                        this.itemsInCart.tax = this.itemsInCart.subtotal * taxRate
-                        this.itemsInCart.total = (this.itemsInCart.subtotal + this.itemsInCart.tax + this.itemsInCart.deliveryFee).toFixed(2)
+                        // this.itemsInCart.itemCount++
+                        // this.itemsInCart.price+= item.price
+                        // this.itemsInCart.subtotal = this.itemsInCart.price
+
+
+                        // this.itemsInCart.subTimesQty = (item.price * item.qty).toFixed(2)
+                        // this.itemsInCart.tax = this.itemsInCart.subtotal * taxRate
+                        // this.itemsInCart.total = (this.itemsInCart.subtotal + this.itemsInCart.tax + this.itemsInCart.deliveryFee).toFixed(2)
 
                     }
 
@@ -271,6 +297,32 @@ class Store {
 
                 item.qty = 0
             }
+        })
+    }
+
+    addPromo() {
+        const promoBtn = document.getElementById('promoBtn')
+        // get deliveryFee
+        let { deliveryFee } = this.itemsInCart
+        let { subtotal } = this.itemsInCart
+
+        const { noDeliveryFee } = this.promos
+        const { twentyPercentOff }  = this.promos
+
+        promoBtn.addEventListener('click', (e)=> {
+            e.preventDefault()
+            const promo = document.getElementById('promo').value.toLowerCase()
+
+            if (noDeliveryFee == promo) {
+                deliveryFee = 0
+            } else if (twentyPercentOff == promo) {
+                subtotal = subtotal * .20
+            }
+
+            console.log(this.itemsInCart)
+
+
+
         })
     }
 }
