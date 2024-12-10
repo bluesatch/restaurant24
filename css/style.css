@@ -46,6 +46,15 @@ body {
     height: 45vh;
 }
 
+.cart-btn, .confirm-btn, .promo-btn {
+    color: #fff;
+    background-color: var(--red);
+}
+
+.checkout-section, .menu-section {
+    padding: 20px 0;
+}
+
 .figure-heading {
     margin: 0;
     font-size: 1rem;
@@ -79,6 +88,16 @@ body {
     font-size: 1.5rem;
 }
 
+.item-caption {
+    color: var(--red);
+    font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.item-desc {
+    color: var(--gray1);
+    font-style: italic;
+}
+
 .main-nav-link {
     color: var(--yellow);
 }
@@ -88,6 +107,11 @@ body {
     color: #000;
     background-color: var(--yellow);
     border-radius: 5px;
+}
+
+.menu-btn {
+    color: #fff;
+    background-color: var(--gray3);
 }
 
 .my-figure {
